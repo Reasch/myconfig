@@ -1,0 +1,97 @@
+#数据库配置
+spring:
+  datasource:
+      driver-class-name: com.mysql.jdbc.Driver    #mysql驱动()
+      password: yangxing                       #数据库密码()
+      url: "jdbc:mysql://172.16.20.23:3306/face_pass?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull"
+      username: root                              #数据库账号()
+      type: com.alibaba.druid.pool.DruidDataSource
+
+
+facepass:
+  model_name: agesun
+  product_name: zhaji
+
+
+#小屏配置
+# 小屏配置【大华网络摄像头sdk版抓拍时候使用，其他情况抓拍不需输入以下值】
+video:
+  ip: '172.16.20.31'
+  port: 37777
+  userName: 'admin'
+  password: '1111'
+
+# 抓拍配置
+arithmetic:
+  cameraType: 'usb' # 区分usb摄像头还是DH大华摄像头还是支持rtsp/rtmp协议的（网络摄像头）:USB/DH/rtsp(网络摄像头)
+  opencvPath: 'E:\tools\openCV\build' # opencv 地址,当cameraType选择DH时该项不需要填写
+  rtsp: 'rtsp://admin:1111@172.16.20.31:554/cam/realmonitor?channel=1&subtype=1'  # rtsp/rtmp流 地址【当cameraType=rtsp时填写】
+  #rtsp: 'rtsp://admin:admin@172.16.20.22:554/2'
+  deviceNo: '172.16.20.35' # 设备编号【社区项目使用，勇于区分当前设备】
+  enterFlag: 1 #进出标识（抓拍时使用）
+  doorUrl: http://172.16.20.229:8100/normalOpen/17216201558000/042/01  #当前设备需要开启闸机的访问地址
+  faceTime: 3000 # 同一张图片抓取时间间隔
+  authorization: 3 # 加密方式当前授权方式1：在线版；2：离线版；3：加密狗
+  faceSize: 150 # 人脸大小控制有效距离
+  pointSize: 21 # 人脸采集点，分别为21点和106点
+  definition: 80 #当前帧图像清晰度，值越大识别要求的图像清晰度越高【建议值范围80-150】【当cameraType=rtsp/usb 时此值生效】
+  bussinessUrl: http://172.16.20.208:8081/face/identify  # 业务访问接口地址
+  doorIp: 172.16.20.155  #闸机ip地址[控制开门时间]
+  openTime: 5 #闸机开门时间间隔[单位s]
+  yaw_min: -20  #最小水平转角
+  yaw_max: 20  #最大水平转角
+  pitch_min: -20  #最小俯仰角
+  pitch_max: 20  #最大俯仰角
+  roll_min: -20  #最小倾斜角
+  roll_max: 20  #最大倾斜角
+  frame_width: 730 #宽度
+  frame_height: 580 #高度
+#业务配置
+algorBussiness:
+  #算法阀值
+  matcherRate: 0.8
+  #人证核验需要上传ftp人员底图图片
+  person_imgurl: /face/
+  #通行图片存放地址
+  record_re_imgurl: /face/pass/recordImage/
+  #产品型号，redis的key
+  product_name: zhaji
+  model_name: agesun
+  #开门地址
+  door_url:
+  #大屏推送地址
+  big_server:
+  #是否开启大屏推送（0是1否）
+  isBigServer: 1
+  #算法临时库的key
+  temporaryCacheKey: temporaryCache
+  #1:N检索地址
+  searchFaceFeature: http://localhost:8082/face/search_face_featureByFeature
+  #检验是否人脸
+  checkFaceImage: http://localhost:8082/face/check_face_image
+  #维护人脸
+  editFaceFeature: http://localhost:8082/face/edit_face_feature
+  #1：N临时库比对
+  seachTemporaryFaceFeature: http://localhost:8082/face/seach_temporary_face_feature
+  #1：N批量维护
+  editBatchFaceFeature: http://localhost:8082/face/edit_batch_face_feature
+  #1：1比对
+  compareFeature: http://localhost:8082/face/compareFeature
+  #考勤接口
+  attendance:
+  #身份证阅读器读取数据存放地址
+  idCardPath: C:/idCardPhoto/zp.bmp
+  #人证核验录入默认身份
+  personType: 14
+  #人证核验人员是否需要审核(0否1是)
+  isAudit: 0
+  #闸机所属组织机构
+  orgId: 46
+
+  showReadIdCard: http://localhost:8083/showIdCard
+  #ftp服务器配置
+  ftpIp: 172.16.20.228
+  ftpPort: 21
+  ftpUser: facepassadmin
+  ftpPwd: 123456
+  ftpPath: /pass/image/
